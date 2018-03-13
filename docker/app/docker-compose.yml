@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  app:
+    build: .
+    image: sb-flyway-postgres-docker-app-prod:latest
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    container_name: sb_flyway_postgres_docker_prod_app
+  postgres:
+    image: sameersbn/postgresql:9.6-2
+    ports:
+      - 5432:5432
+    volumes:
+      - ./storage/postgresql:/var/lib/postgresql
+    environment:
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - DB_NAME=sb-flyway-postgres-docker-prod-db
+      - PG_TRUST_LOCALNET=true
+      - PGHOST=localhost
+    container_name: sb_flyway_postgres_docker_prod_db
